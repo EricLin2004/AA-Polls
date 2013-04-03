@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130402181552) do
+ActiveRecord::Schema.define(:version => 20130403003224) do
 
   create_table "choices", :force => true do |t|
     t.integer "question_id"
@@ -19,6 +19,14 @@ ActiveRecord::Schema.define(:version => 20130402181552) do
   end
 
   add_index "choices", ["question_id"], :name => "index_choices_on_question_id"
+
+  create_table "poll_histories", :force => true do |t|
+    t.integer "voter_id"
+    t.integer "poll_id"
+  end
+
+  add_index "poll_histories", ["poll_id"], :name => "index_poll_histories_on_poll_id"
+  add_index "poll_histories", ["voter_id"], :name => "index_poll_histories_on_voter_id"
 
   create_table "polls", :force => true do |t|
     t.integer "creator_id"
@@ -29,11 +37,9 @@ ActiveRecord::Schema.define(:version => 20130402181552) do
 
   create_table "questions", :force => true do |t|
     t.integer "poll_id"
-    t.integer "choice_id"
-    t.text    "body",      :limit => 1024
+    t.text    "body",    :limit => 1024
   end
 
-  add_index "questions", ["choice_id"], :name => "index_questions_on_choice_id"
   add_index "questions", ["poll_id"], :name => "index_questions_on_poll_id"
 
   create_table "responses", :force => true do |t|
